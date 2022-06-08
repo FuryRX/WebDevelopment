@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://127.0.0.1:27017/todolistDB", {useNewUrlParser: true,
+mongoose.connect("mongodb+srv://admin:test123@cluster0.3dnip90.mongodb.net/todolistDB", {useNewUrlParser: true,
 useUnifiedTopology: true});
 
 
@@ -62,7 +63,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/:customListName",function(req,res){
-  const customListName = req.params.customListName;
+  const customListName = _.capitalize(req.params.customListName);
 
   List.findOne({name: customListName},function(err,foundList){
     if(!err){
